@@ -90,3 +90,42 @@ INSERT INTO Pedidos (IdCliente, IdProducto, Cantidad, FechaPedido, Estado) VALUE
 (8,9,2,'2026-04-18','Entregado'),
 (18,4,1,'2026-10-14','Pendiente');
 GO
+SELECT FROM CLIENTES;
+SELECT IdNombre,Nombre,Correo,Telefono,Direccion,FechaRegistro FROM CLIENTES
+    WHERE IdNombre,Nombre,Correo,Telefono,Direccion,FechaRegistro = 'Carolina Ruiz','carolina.ruiz@gmail.com','3104567812','Calle 123 #45-67','2025-11-03';
+SELECT FROM CLIENTES;
+SELECT IdNombre,Nombre,Correo,Telefono,Direccion,FechaRegistro FROM CLIENTES
+    WHERE IdNombre,Nombre,Correo,Telefono,Direccion,FechaRegistro = 'Juan Pardo','juan.pardo@hotmail.com','3157894512','Carrera 8 #23-45','2025-11-20';
+SELECT FROM CLIENTES;
+SELECT IdNombre,Nombre,Correo,Telefono,Direccion,FechaRegistro FROM CLIENTES
+    WHERE IdNombre,Nombre,Correo,Telefono,Direccion,FechaRegistro = 'Diana Castillo','diana.castillo@outlook.com','3204561237','Avenida 10 #78-90','2025-12-05';
+SELECT FROM CLIENTES;
+SELECT IdNombre,Nombre,Correo,Telefono,Direccion,FechaRegistro FROM CLIENTES
+    WHERE IdNombre,Nombre,Correo,Telefono,Direccion,FechaRegistro = 'Miguel Fonseca','miguel.fonseca@gmail.com','3001237894','Calle 45 #67-89','2025-12-18';
+SELECT FROM CLIENTES;
+SELECT IdNombre,Nombre,Correo,Telefono,Direccion,FechaRegistro FROM CLIENTES
+    WHERE IdNombre,Nombre,Correo,Telefono,Direccion,FechaRegistro = 'Samuel Ochoa','samuel.ochoa@gmail.com','3047539516','Carrera 8 #23-45','2026-09-30';
+
+
+
+SELECT FROM Productos;
+SELECT Nombre,Categoria,Precio,Stock FROM Productos 
+    WHERE nombre,Categoria,Precio,Stock = 'Ensalada Cesar','Ensaladas','22000','120';
+SELECT FROM Productos;
+SELECT Nombre,Categoria,Precio,Stock FROM Productos 
+    WHERE nombre,Categoria,Precio,Stock = 'Ensalada de quinoa','Ensaladas','24000','100';
+SELECT FROM Productos;
+SELECT Nombre,Categoria,Precio,Stock FROM Productos 
+    WHERE Nombre,Categoria,Precio,Stock = 'Bowl de Salmon y aguacate ','Bowls','32000','80';
+SELECT FROM Productos;
+SELECT Nombre,Categoria,Precio,Stock FROM Productos 
+    WHERE Nombre,Categoria,Precio,Stock = 'Bowl Teriyaki de tofu','Bowls','26000','90';
+SELECT FROM Productos;
+SELECT Nombre,Categoria,Precio,Stock FROM Productos 
+    WHERE Nombre,Categoria,Precio,Stock = 'WRAP integral de pavo ','Wraps','18000','110';
+
+
+
+
+
+
