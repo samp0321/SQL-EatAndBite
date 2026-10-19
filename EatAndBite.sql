@@ -289,7 +289,7 @@ GROUP BY pr.Categoria
 HAVING SUM(pe.Total) >= 50000
 ORDER BY VentasCategoria DESC;
 
--- ¿Qué productos tienen 10 unidades o menos y quien es el proovedor??
+-- ¿Qué productos tienen 10 unidades o menos y quien es el proovedor?
 SELECT pr.Nombre AS Producto,
        pr.Stock,
        pv.Empresa AS Proveedor
@@ -297,3 +297,25 @@ FROM Productos AS pr
 INNER JOIN Proveedores AS pv ON pv.IdProveedor = pr.IdProveedor
 WHERE pr.Stock <= 10
 ORDER BY pr.Stock, pr.Nombre;
+-- ¿Cuál es el precio promedio y cuántos productos hay por categoría?
+SELECT Categoria,
+       COUNT(IdProducto) AS CantidadProductos,
+       AVG(Precio) AS PrecioPromedio
+FROM Productos
+GROUP BY Categoria
+HAVING COUNT(IdProducto) >= 2
+ORDER BY PrecioPromedio DESC;
+
+-- ¿Qué productos han sido pedidos más de una vez y cuál es el promedio de unidades solicitadas por pedido?
+SELECT pr.Nombre AS Producto,
+       COUNT(pe.IdPedido) AS TotalPedidos,
+       AVG(CAST(pe.Cantidad AS DECIMAL(10,2))) AS PromedioUnidadesPorPedido
+FROM Pedidos AS pe
+INNER JOIN Productos AS pr ON pr.IdProducto = pe.IdProducto
+GROUP BY pr.IdProducto, pr.Nombre
+HAVING COUNT(pe.IdPedido) >= 1
+ORDER BY TotalPedidos DESC;
+-- DELETE
+DELETE FROM Pedidos 
+WHERE Estado = 'Cancelado' AND IdPedido = 12;
+GO
