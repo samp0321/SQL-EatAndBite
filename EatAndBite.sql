@@ -164,6 +164,14 @@ INSERT INTO Pedidos (IdCliente, IdProducto, Cantidad, FechaPedido, Estado) VALUE
 (19,18,2,'2026-09-10','Entregado'),
 (20,20,1,'2026-10-01','Pendiente');
 GO
+
+-- Calcula el total de cada pedido con el precio vigente al momento de cargar los datos.
+UPDATE pe
+SET Total = pe.Cantidad * pr.Precio
+FROM Pedidos AS pe
+INNER JOIN Productos AS pr ON pr.IdProducto = pe.IdProducto;
+GO
+
 SELECT IdCliente, 
         Nombre, 
         Correo, 
@@ -222,14 +230,6 @@ SET Correo = 'cfrodriguez@mm.com'
 WHERE Nombre = 'Camila Rodríguez';
 
 UPDATE Productos
-SET Stock = 150
-WHERE IdProveedor = (SELECT IdProveedor FROM Proveedores WHERE NIT = '900123456-1');
-
-UPDATE Productos
-SET Stock = 200
-WHERE IdProveedor = (SELECT IdProveedor FROM Proveedores WHERE NIT = '900234567-2');
-
-UPDATE Productos
 SET Precio = 28000
 WHERE Nombre = 'Ensalada César con pollo';
 
@@ -248,3 +248,52 @@ WHERE IdPedido = 8;
 UPDATE Pedidos
 SET FechaPedido = '2026-10-31'
 WHERE IdPedido = 18;
+
+-- ¿Cuáles fueron las ventas completadas por mes?
+SELECT YEAR(FechaPedido) AS Anio,
+       MONTH(FechaPedido) AS Mes,
+       SUM(Total) AS VentasTotales
+FROM Pedidos
+WHERE Estado = 'Entregado'
+GROUP BY YEAR(FechaPedido), MONTH(FechaPedido)
+ORDER BY Anio, Mes;
+
+-- ¿Qué productos vendieron más unidades en pedidos entregados?
+SELECT TOP (5)
+       pr.Nombre AS Producto,
+       SUM(pe.Cantidad) AS UnidadesVendidas
+FROM Pedidos AS pe
+INNER JOIN Productos AS pr ON pr.IdProducto = pe.IdProducto
+WHERE pe.Estado = 'Entregado'
+GROUP BY pr.IdProducto, pr.Nombre
+ORDER BY UnidadesVendidas DESC, pr.Nombre;
+
+-- ¿Qué clientes generaron más ventas con pedidos entregados?
+SELECT TOP (10)
+       cl.IdCliente,
+       cl.Nombre AS Cliente,
+       SUM(pe.Total) AS TotalComprado
+FROM Pedidos AS pe
+INNER JOIN Clientes AS cl ON cl.IdCliente = pe.IdCliente
+WHERE pe.Estado = 'Entregado'
+GROUP BY cl.IdCliente, cl.Nombre
+ORDER BY TotalComprado DESC, cl.Nombre;
+
+-- ¿Qué categorías acumularon al menos 50.000 en ventas entregadas?
+SELECT pr.Categoria,
+       SUM(pe.Total) AS VentasCategoria
+FROM Pedidos AS pe
+INNER JOIN Productos AS pr ON pr.IdProducto = pe.IdProducto
+WHERE pe.Estado = 'Entregado'
+GROUP BY pr.Categoria
+HAVING SUM(pe.Total) >= 50000
+ORDER BY VentasCategoria DESC;
+
+-- ¿Qué productos tienen 10 unidades o menos y quien es el proovedor??
+SELECT pr.Nombre AS Producto,
+       pr.Stock,
+       pv.Empresa AS Proveedor
+FROM Productos AS pr
+INNER JOIN Proveedores AS pv ON pv.IdProveedor = pr.IdProveedor
+WHERE pr.Stock <= 10
+ORDER BY pr.Stock, pr.Nombre;
